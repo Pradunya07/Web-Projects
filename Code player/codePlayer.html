@@ -1,0 +1,198 @@
+<html>
+
+<head>
+
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Source+Sans+Pro&display=swap" rel="stylesheet">
+<script src="jquery-3.4.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="jquery-ui.js"></script>
+<style type="text/css">
+	body{
+		margin:0px;
+
+	}
+	#toolbar{
+		margin:0 auto ;
+		width:1500px;
+		height:50px;
+		background-color:#CEC9C8;
+		
+	}	
+	
+	#heading{
+		float:left;
+		color:black;
+		padding:15px 10px 5px 8px;
+		font-family: 'Josefin Sans', sans-serif;
+		
+		height:50px;
+		width:450px;
+		font-size:28px;
+	
+	}
+	div{
+		float:left;
+	}
+	
+	#html{
+		margin:14px 1px 2px 1px;
+		height:15px;
+		width:48px;
+		font-size:12px;
+		
+		padding:4px 1px 5px 7px;
+		
+		font-family:font-family: 'Source Sans Pro', sans-serif;
+	}
+	
+	#css{
+		height:15px;
+		width:40px;
+		font-size:12px;
+		margin:14px 1px 2px 1px;
+		padding:4px 1px 5px 7px;
+		
+		font-family:font-family: 'Source Sans Pro', sans-serif;
+	}
+
+	#js{
+		height:15px;
+		width:75px;
+		font-size:12px;
+		margin:14px 1px 2px 1px;
+		padding:4px 1px 5px 7px;
+		
+		font-family:font-family: 'Source Sans Pro', sans-serif;
+	}
+
+	#output{
+		height:15px;
+		width:50px;
+		font-size:12px;
+		margin:14px 1px 2px 1px;
+		padding:4px 1px 5px 7px;
+		
+		font-family:font-family: 'Source Sans Pro', sans-serif;
+	}
+	
+	.toggle_button{
+		border:1px solid grey;
+		border-radius:4px;
+		height:7px;
+		background-color:#DDDAD9;
+
+	}	
+	
+	.highlightedButton{
+		background-color:#B7B5B5  ;
+
+
+	}
+	.active{
+		background-color:#BFEAFC;
+	}
+	
+	textarea{
+		border-top:none;
+		resize:none;
+		
+	}
+
+	
+	.panel{
+		
+		float:left;	
+		border-left:none;
+
+	}	
+
+	iframe{
+		border:none;
+	}
+	
+	.hidden{
+		
+		display:none;
+
+	}
+
+	
+</style>
+</head>
+<body>
+<div id="toolbar">
+	<div id="heading" >CodePlayer</div>
+	<div id="html" class="toggle_button active">HTML</div>
+	<div id="css" class="toggle_button">CSS</div>
+	<div id="js" class="toggle_button">JavaScript</div>
+	<div id="output" class="toggle_button active">Output</div>
+</div>
+<div class="bodyContainer">
+	<textarea id="htmlpanel" class="panel" ><p id="paragraph">Hello World</p></textarea>
+	
+	<textarea id="csspanel" class="panel hidden"> p{color:green;}</textarea>
+
+	<textarea id="jspanel" class="panel hidden">document.getElementById("paragraph").innerHTML="Hello World!";</textarea>
+
+	<iframe id="outputpanel" class="panel"></iframe>
+</div>
+	
+
+
+<script type="text/javascript">
+
+function css_js_text(){
+	$("iframe").contents().find("html").html("<html><head><style type='text/css'>"+
+	$("#csspanel").val()+"</style></head><body>"+
+	$("#htmlpanel").val()+"</body></html>");
+	document.getElementById("outputpanel").contentWindow.eval($("#jspanel").val());
+
+	
+}
+
+$( ".toggle_button" ).hover(
+  function() {
+    $( this ).addClass("highlightedButton");
+  }, function() {
+    $( this ).removeClass("highlightedButton");
+
+  }
+    
+);	
+$(".toggle_button").click(function(){
+	$(this).toggleClass( "active" );
+	$(this).removeClass("highlightedbutton");
+	$(this).toggleClass( ".hidden" );
+	var panelId=$(this).attr("id")+"panel";
+	$("#"+panelId).toggleClass("hidden");
+	var activePanels = 4- $('.hidden').length;
+	$(".panel").width(($(window).width()/activePanels) - 10);
+});
+
+$(".bodyContainer").width($(window).width());
+
+$(".panel").height($(window).height()-$("#toolbar").height());
+
+var activePanels = 4- $('.hidden').length;
+
+$(".panel").width(($(window).width()/activePanels) - 10);
+
+$(css_js_text);
+
+$("textarea").on('change keyup paste', function() {
+	$(css_js_text);
+});
+
+
+
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
